@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:pyjama_pingpong/config.dart';
 import 'package:pyjama_pingpong/providers/phantom.dart';
 import 'package:pyjama_pingpong/providers/providers.dart';
+import 'package:pyjama_pingpong/screens/home.dart';
 import 'package:pyjama_pingpong/services/context_utility.dart';
 import 'package:pyjama_pingpong/utils/hive.dart';
 import 'package:pyjama_pingpong/utils/phantom_connect.dart';
@@ -14,10 +15,7 @@ import 'firebase_options.dart';
 import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pyjama_pingpong/screens/pyjama_coin_app.dart';
 import 'package:pyjama_pingpong/services/link_services.dart';
-import 'models/settings.dart';
-import 'models/player_data.dart';
 import "package:app_links/app_links.dart";
 
 late PhantomConnect phantomConnect;
@@ -44,8 +42,14 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (_) => PhantomWalletProvider(),
         ),
+        ChangeNotifierProvider(
+            create: (_) => GameProvider()), // Register GameProvider here
       ],
-      child: const PyjamaCoinApp(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: ContextUtility.navigatorKey,
+        home: HomeScreen(),
+      ),
     ),
   );
   _handleDeepLink();
@@ -96,6 +100,6 @@ Future<void> initHive() async {
     Hive.init(dir.path);
   }
 
-  Hive.registerAdapter<PlayerData>(PlayerDataAdapter());
-  Hive.registerAdapter<Settings>(SettingsAdapter());
+  // Hive.registerAdapter<PlayerData>(PlayerDataAdapter());
+  // Hive.registerAdapter<Settings>(SettingsAdapter());
 }

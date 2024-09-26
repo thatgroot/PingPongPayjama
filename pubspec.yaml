@@ -38,20 +38,9 @@ flutter:
   assets:
     - assets/images/
     - assets/images/app/
-    - assets/images/parallax/
-    - assets/images/parallax/new/
-    - assets/images/AngryPig/
-    - assets/images/Bat/
-    - assets/images/Rino/
-    - assets/images/pyjama/
-    - assets/images/pyjama/characters/
-    - assets/images/pyjama/activities/
-    - assets/images/pyjama/modes/
-    - assets/images/pyjama/tasks/
-    - assets/icons/
-    - assets/icons/navigation/
-    - assets/icons/profile/
+    - assets/images/game/
     - assets/audio/
+    - assets/game/
 
   fonts:
     - family: Audiowide

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:pyjama_pingpong/screens/new/home.dart';
+import 'package:pyjama_pingpong/screens/home.dart';
 import 'package:pyjama_pingpong/utils/navigation.dart';
 import 'package:pyjama_pingpong/widgets/app/animated_image.dart';
 import 'package:pyjama_pingpong/widgets/app/animated_progress_bar.dart';

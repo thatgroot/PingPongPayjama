@@ -87,3 +87,63 @@ class ReferralJoinProvider extends ChangeNotifier {
     }
   }
 }
+
+class GameProvider with ChangeNotifier {
+  int _score = 0;
+  int _level = 1;
+  bool _sound = true; // Default sound on
+  bool _bgm = true; // Default background music on
+
+  int get score => _score;
+  int get level => _level;
+  bool get sound => _sound; // Getter for sound
+  bool get bgm => _bgm; // Getter for background music
+
+  // Method to increment the score
+  void update(int value) {
+    _score = value;
+    notifyListeners(); // Notify listeners about the score change
+  }
+
+  // Method to update the level
+  void updateLevel(int value) {
+    _level = value;
+    notifyListeners(); // Notify listeners about the level change
+  }
+
+  // Method to reset the score
+  void reset() {
+    _score = 0;
+    notifyListeners();
+  }
+
+  // Method to reset the level
+  void resetLevel() {
+    _level = 1;
+    notifyListeners();
+  }
+
+  // Method to toggle sound setting
+  void toggleSound() {
+    _sound = !_sound;
+    notifyListeners(); // Notify listeners about the sound change
+  }
+
+  // Method to toggle background music setting
+  void toggleBgm() {
+    _bgm = !_bgm;
+    notifyListeners(); // Notify listeners about the bgm change
+  }
+
+  // Method to set sound to a specific value (optional)
+  void setSound(bool value) {
+    _sound = value;
+    notifyListeners(); // Notify listeners about the sound change
+  }
+
+  // Method to set background music to a specific value (optional)
+  void setBgm(bool value) {
+    _bgm = value;
+    notifyListeners(); // Notify listeners about the bgm change
+  }
+}

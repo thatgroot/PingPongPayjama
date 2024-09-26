@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
-import 'package:pyjama_pingpong/screens/character_display_screen.dart';
 import 'package:pyjama_pingpong/screens/welcome_screen.dart';
 import 'package:pyjama_pingpong/services/context_utility.dart';
 import 'package:pyjama_pingpong/utils/hive.dart';
@@ -31,7 +30,7 @@ class LinkServices {
 
     getData("connected").then((connected) {
       if (connected != null && connected) {
-        to(ContextUtility.context!, const CharacterDisplayScreen());
+        // to(ContextUtility.context!, const CharacterDisplayScreen());
       }
       saveData("connected", true);
       to(ContextUtility.context!, const WelcomeScreen());

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pyjama_pingpong/game/audio_manager.dart';
+import 'package:pyjama_pingpong/providers/providers.dart';
+import 'package:pyjama_pingpong/services/context_utility.dart';
+import 'package:pyjama_pingpong/utils/hive.dart';
 import 'package:pyjama_pingpong/widgets/app/sections/popover_container.dart';
 import 'package:pyjama_pingpong/widgets/app/toggle.dart';
 
@@ -34,12 +39,33 @@ class GameSettingsPopup extends StatefulWidget {
 }
 
 class GameSettingsPopupState extends State<GameSettingsPopup> {
-  bool soundEnabled = false;
+  bool bgmEnabled = true;
+  bool soundEnabled = true;
 
-  bool musicEnabled = true;
+  @override
+  void initState() {
+    super.initState();
+    getData("sound").then((s) {
+      setState(() {
+        soundEnabled = s ?? true;
+      });
+    });
+    getData("bgm").then((s) {
+      if (s == null) {
+        AudioManager.playBackgroundMusic();
+        saveData("bgm", true);
+      } else {}
+      setState(() {
+        bgmEnabled = s ?? true;
+      });
+    });
+    // Provider.of<GameProvider>(ContextUtility.context!, listen: false).sound;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final gameProvider =
+        Provider.of<GameProvider>(ContextUtility.context!, listen: false);
     return PopoverContainer(
       children: [
         Stack(
@@ -117,8 +143,8 @@ class GameSettingsPopupState extends State<GameSettingsPopup> {
                               label: "Coins :",
                               count: "30",
                               postImage: Image(
-                                  image:
-                                      AssetImage("assets/images/app/coin.png")),
+                                image: AssetImage("assets/images/app/coin.png"),
+                              ),
                             ),
                           ],
                         )
@@ -131,10 +157,14 @@ class GameSettingsPopupState extends State<GameSettingsPopup> {
                                 image: Image.asset(
                                     "assets/images/app/speaker.png"),
                                 label: "Sound",
-                                active: musicEnabled,
-                                onChanged: (value) {
+                                active: soundEnabled,
+                                onChanged: (_value) {
+                                  bool value = gameProvider.sound;
+                                  saveData("sound", !value);
+                                  AudioManager.sound = !value;
+                                  gameProvider.toggleSound();
                                   setState(() {
-                                    musicEnabled = value;
+                                    soundEnabled = gameProvider.sound;
                                   });
                                 },
                               ),
@@ -143,10 +173,20 @@ class GameSettingsPopupState extends State<GameSettingsPopup> {
                                 image:
                                     Image.asset("assets/images/app/music.png"),
                                 label: "Music",
-                                active: musicEnabled,
-                                onChanged: (value) {
+                                active: bgmEnabled,
+                                onChanged: (_value) {
+                                  bool value = gameProvider.bgm;
+                                  saveData("bgm", !value);
+                                  if (value) {
+                                    AudioManager.stopBackgroundMusic();
+                                  } else {
+                                    AudioManager.playBackgroundMusic();
+                                  }
+                                  gameProvider.toggleBgm();
+
+                                  print("sound provider ${gameProvider.sound}");
                                   setState(() {
-                                    musicEnabled = value;
+                                    bgmEnabled = gameProvider.bgm;
                                   });
                                 },
                               ),

@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pyjama_pingpong/providers/phantom.dart';
-import 'package:pyjama_pingpong/screens/character_display_screen.dart';
-import 'package:pyjama_pingpong/screens/name_input_screen.dart';
 import 'package:pyjama_pingpong/screens/wallet_connect.dart';
 import 'package:pyjama_pingpong/services/context_utility.dart';
 import 'package:pyjama_pingpong/services/firebase.dart';
@@ -40,7 +38,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             .then((doc) {
           log("exists ${doc.data()}");
           if (doc.exists) {
-            to(ContextUtility.context!, const CharacterDisplayScreen());
+            // to(ContextUtility.context!, const CharacterDisplayScreen());
           }
         });
       }
@@ -52,10 +50,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   void _navigateToNameScreen() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const NameInputScreen()),
-    );
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const NameInputScreen()),
+    // );
   }
 
   @override

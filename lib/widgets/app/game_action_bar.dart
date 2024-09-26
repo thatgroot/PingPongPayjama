@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pyjama_pingpong/providers/providers.dart';
 
 class ActionItem {
   final IconData icon; // The type for icon is strictly IconData
@@ -18,6 +20,9 @@ class GameActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GameProvider>(context);
+    final score = provider.score;
+    final level = provider.level;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,26 +34,55 @@ class GameActionBar extends StatelessWidget {
             ),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
                 icon: Image.asset("assets/images/app/pcoin.png"),
                 onPressed: () {},
               ),
               const SizedBox(width: 6),
-              const Text(
-                '120',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w600,
-                  height: 0,
+              Container(
+                height: 64,
+                width: 42, // Set a fixed width for the container
+                alignment: Alignment.center, // Align the text in the center
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ), // Optional: rounding the corners
+                ),
+                child: Text(
+                  score.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: 'Rubik',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
-              IconButton(
-                icon: Image.asset("assets/images/app/add_green.png"),
-                onPressed: () {},
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    IconButton(
+                      icon: Image.asset(
+                        "assets/images/app/blue_block.png",
+                        width: 36,
+                      ),
+                      onPressed: () {},
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: Text(
+                        "L$level",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

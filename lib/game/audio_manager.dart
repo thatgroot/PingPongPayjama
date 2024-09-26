@@ -1,57 +1,60 @@
-import '/models/settings.dart';
-import 'package:flame/flame.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-/// This class is the common interface between [DinoRun]
-/// and [Flame] engine's audio APIs.
 class AudioManager {
-  late Settings settings;
-  AudioManager._internal();
-
-  /// [_instance] represents the single static instance of [AudioManager].
-  static final AudioManager _instance = AudioManager._internal();
-
-  /// A getter to access the single instance of [AudioManager].
-  static AudioManager get instance => _instance;
-
-  /// This method is responsible for initializing caching given list of [files],
-  /// and initilizing settings.
-  Future<void> init(List<String> files, Settings settings) async {
-    this.settings = settings;
-    FlameAudio.bgm.initialize();
-    await FlameAudio.audioCache.loadAll(files);
+  static bool sound = true;
+  static bool bgm = true;
+  static Future<void> load() async {
+    // Load sound effects and background music
+    await FlameAudio.audioCache.loadAll([
+      'hit_paddle.wav',
+      'hit_bricks.wav',
+      'bgm.mp3' // Make sure this file is in your assets
+    ]);
   }
 
-  // Starts the given audio file as BGM on loop.
-  void startBgm(String fileName) {
-    if (settings.bgm) {
-      FlameAudio.bgm.play(fileName, volume: 0.4);
+  // Play paddle hit sound
+  static void playHitPaddle() {
+    if (sound) {
+      FlameAudio.play('hit_paddle.wav');
     }
   }
 
-  // Pauses currently playing BGM if any.
-  void pauseBgm() {
-    if (settings.bgm) {
-      FlameAudio.bgm.pause();
+  // Play brick hit sound
+  static void playHitBrick() {
+    if (sound) {
+      FlameAudio.play('hit_bricks.wav');
     }
   }
 
-  // Resumes currently paused BGM if any.
-  void resumeBgm() {
-    if (settings.bgm) {
-      FlameAudio.bgm.resume();
+  static void playAll() {
+    FlameAudio.play('hit_paddle.wav');
+    FlameAudio.play('hit_bricks.wav');
+  }
+
+  // Play paddle hit sound
+  static void clearAll() {
+    FlameAudio.audioCache.clearAll();
+  }
+
+  // Play background music with looping
+  static void playBackgroundMusic() {
+    if (AudioManager.bgm) {
+      FlameAudio.bgm.play('bgm.mp3', volume: 0.5); // Volume can be adjusted
     }
   }
 
-  // Stops currently playing BGM if any.
-  void stopBgm() {
+  // Stop background music
+  static void stopBackgroundMusic() {
     FlameAudio.bgm.stop();
   }
 
-  // Plays the given audio file once.
-  void playSfx(String fileName) {
-    if (settings.sfx) {
-      FlameAudio.play(fileName);
-    }
+  // Pause background music
+  static void pauseBackgroundMusic() {
+    FlameAudio.bgm.pause();
+  }
+
+  // Resume background music
+  static void resumeBackgroundMusic() {
+    FlameAudio.bgm.resume();
   }
 }

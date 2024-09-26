@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pyjama_pingpong/game/game.dart';
 
 import '/widgets/hud.dart';
-import '/game/dino_run.dart';
 import '/widgets/settings_menu.dart';
 
 // This represents the main menu overlay.
@@ -12,7 +12,7 @@ class MainMenu extends StatelessWidget {
   static const id = 'MainMenu';
 
   // Reference to parent game.
-  final DinoRun game;
+  final PingPongGame game;
 
   const MainMenu(this.game, {super.key});
 
@@ -44,7 +44,7 @@ class MainMenu extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      game.startGamePlay();
+                      game.resumeEngine();
                       game.overlays.remove(MainMenu.id);
                       game.overlays.add(Hud.id);
                     },
